@@ -228,11 +228,41 @@ class ViewController: UIViewController {
         Die3.setTitleColor(UIColor.black, for: .normal);
         Die4.setTitleColor(UIColor.black, for: .normal);
         Die5.setTitleColor(UIColor.black, for: .normal);
+        finalScore = totalScore();
         if (turnCount == 13){
-            finalScore = totalScore();
-            let endGameVC = self.storyboard?.instantiateViewController(withIdentifier: "EndGameViewController") as! EndGameViewController;
-            self.navigationController?.pushViewController(endGameVC, animated: true);
-            self.present(endGameVC, animated: true, completion: nil);
+            RollBtn.backgroundColor = UIColor.gray;
+            Score1sBtn.backgroundColor = UIColor.gray;
+            Score2sBtn.backgroundColor = UIColor.gray;
+            Score3sBtn.backgroundColor = UIColor.gray;
+            Score4sBtn.backgroundColor = UIColor.gray;
+            Score5sBtn.backgroundColor = UIColor.gray;
+            Score6sBtn.backgroundColor = UIColor.gray;
+            threeOfAKindBtn.backgroundColor = UIColor.gray;
+            FourOfAKindBtn.backgroundColor = UIColor.gray;
+            FullHouseBtn.backgroundColor = UIColor.gray;
+            SmallStraightBtn.backgroundColor = UIColor.gray;
+            LargeStraightBtn.backgroundColor = UIColor.gray;
+            YahtzeeBtn.backgroundColor = UIColor.gray;
+            ChanceBtn.backgroundColor = UIColor.gray;
+            BonusYahtzeeBtn.backgroundColor = UIColor.gray;
+            NextTurnBtn.backgroundColor = UIColor.gray;
+            
+            RollBtn.isEnabled = false;
+            Score1sBtn.isEnabled = false;
+            Score2sBtn.isEnabled = false;
+            Score3sBtn.isEnabled = false;
+            Score4sBtn.isEnabled = false;
+            Score5sBtn.isEnabled = false;
+            Score6sBtn.isEnabled = false;
+            threeOfAKindBtn.isEnabled = false;
+            FourOfAKindBtn.isEnabled = false;
+            FullHouseBtn.isEnabled = false;
+            SmallStraightBtn.isEnabled = false;
+            LargeStraightBtn.isEnabled = false;
+            YahtzeeBtn.isEnabled = false;
+            ChanceBtn.isEnabled = false;
+            BonusYahtzeeBtn.isEnabled = false;
+            NextTurnBtn.isEnabled = false;
             return;
         } else {
             turnCount += 1;
@@ -473,6 +503,63 @@ class ViewController: UIViewController {
         goToNextTurn(UIButton());
     }
     
+    @IBAction func restartGame(_ sender: UIButton) {
+        dice[0][1] = 0;
+        dice[1][1] = 0;
+        dice[2][1] = 0;
+        dice[3][1] = 0;
+        dice[4][1] = 0;
+        Die1.setTitleColor(UIColor.black, for: .normal);
+        Die2.setTitleColor(UIColor.black, for: .normal);
+        Die3.setTitleColor(UIColor.black, for: .normal);
+        Die4.setTitleColor(UIColor.black, for: .normal);
+        Die5.setTitleColor(UIColor.black, for: .normal);
+        turnCount = 1;
+        rollCount = 1;
+        RollBtn.backgroundColor = UIColor.systemRed;
+        Score1sBtn.backgroundColor = UIColor.systemRed;
+        Score2sBtn.backgroundColor = UIColor.systemRed;
+        Score3sBtn.backgroundColor = UIColor.systemRed;
+        Score4sBtn.backgroundColor = UIColor.systemRed;
+        Score5sBtn.backgroundColor = UIColor.systemRed;
+        Score6sBtn.backgroundColor = UIColor.systemRed;
+        threeOfAKindBtn.backgroundColor = UIColor.systemRed;
+        FourOfAKindBtn.backgroundColor = UIColor.systemRed;
+        FullHouseBtn.backgroundColor = UIColor.systemRed;
+        SmallStraightBtn.backgroundColor = UIColor.systemRed;
+        LargeStraightBtn.backgroundColor = UIColor.systemRed;
+        YahtzeeBtn.backgroundColor = UIColor.systemRed;
+        ChanceBtn.backgroundColor = UIColor.systemRed;
+        BonusYahtzeeBtn.backgroundColor = UIColor.systemRed;
+        NextTurnBtn.backgroundColor = UIColor.systemRed;
+        upperScores = [0, 0, 0, 0, 0, 0, 0];
+        lowerScores = [0, 0, 0, 0, 0, 0, 0, 0];
+        UpperSectionScoreLabel.text = "-";
+        LowerSectionScoreLabel.text = "-";
+        TotalScoreLabel.text = "-";
+        TurnCounter.text = "1";
+        Die1.setTitle("-", for: .normal);
+        Die2.setTitle("-", for: .normal);
+        Die3.setTitle("-", for: .normal);
+        Die4.setTitle("-", for: .normal);
+        Die5.setTitle("-", for: .normal);
+        RollBtn.isEnabled = true;
+        Score1sBtn.isEnabled = true;
+        Score2sBtn.isEnabled = true;
+        Score3sBtn.isEnabled = true;
+        Score4sBtn.isEnabled = true;
+        Score5sBtn.isEnabled = true;
+        Score6sBtn.isEnabled = true;
+        threeOfAKindBtn.isEnabled = true;
+        FourOfAKindBtn.isEnabled = true;
+        FullHouseBtn.isEnabled = true;
+        SmallStraightBtn.isEnabled = true;
+        LargeStraightBtn.isEnabled = true;
+        YahtzeeBtn.isEnabled = true;
+        ChanceBtn.isEnabled = true;
+        BonusYahtzeeBtn.isEnabled = true;
+        NextTurnBtn.isEnabled = true;
+    }
     
     
     override func viewDidLoad() {
