@@ -1,4 +1,4 @@
-# CSE321Final
+# CSE 321 Final Project
 
 IOS application developed using swift for a user to play the dice game yahtzee in a single player mode.
 
