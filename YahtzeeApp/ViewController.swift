@@ -10,14 +10,15 @@ import SwiftUI
 
 class ViewController: UIViewController {
     // helper variables
+    var finalScore = 0;
     var turnCount = 1;
     var rollCount = 1;
-    var upperScores = [0, 0, 0, 0, 0, 0, 0];
-    var lowerScores = [0, 0, 0, 0, 0, 0, 0, 0];
+    var upperScores:[Int] = [0, 0, 0, 0, 0, 0, 0];
+    var lowerScores:[Int] = [0, 0, 0, 0, 0, 0, 0, 0];
     // dice array in the format [dice value, selected?]
     // NOTE: for selected?, 0 = not selected, 1 = selected
     // if a die is not selected it is rolled again, unless the rollCount = 3
-    var dice = [[1, 0], [1, 0], [1, 0], [1, 0], [1, 0]]
+    var dice:[[Int]] = [[1, 0], [1, 0], [1, 0], [1, 0], [1, 0]]
     
     
     // IBOutlets for dice
@@ -34,7 +35,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var Score3sBtn: UIButton!
     @IBOutlet weak var Score4sBtn: UIButton!
     @IBOutlet weak var Score5sBtn: UIButton!
-    @IBOutlet weak var ThreeOfAKindBtn: UIButton!
+    @IBOutlet weak var Score6sBtn: UIButton!
+    @IBOutlet weak var threeOfAKindBtn: UIButton!
     @IBOutlet weak var FourOfAKindBtn: UIButton!
     @IBOutlet weak var FullHouseBtn: UIButton!
     @IBOutlet weak var SmallStraightBtn: UIButton!
@@ -51,7 +53,6 @@ class ViewController: UIViewController {
     // other connections
     @IBOutlet weak var NextTurnBtn: UIButton!
     @IBOutlet weak var TurnCounter: UILabel!
-    
     // calculate scores for each section
     func totalUpper() -> Int {
         var result = 0;
@@ -75,7 +76,7 @@ class ViewController: UIViewController {
     
     // check what the longest sequence in the dice roll is
     func longestSequence() -> Int {
-        let diceNums = [dice[0][0], dice[1][0], dice[2][0], dice[3][0], dice[4][0]];
+        let diceNums:[Int] = [dice[0][0], dice[1][0], dice[2][0], dice[3][0], dice[4][0]];
         var longestStreak = 0;
         
         for die in diceNums {
@@ -91,13 +92,13 @@ class ViewController: UIViewController {
     }
     
     // roll single die
-    func rollDie() -> String {
+    func rollDie() -> Int {
         let num = Int.random(in: 1..<7);
-        return String(num);
+        return num;
     }
     
     func numEach() -> Array<Int> {
-        var numEach = [0, 0, 0, 0, 0, 0];
+        var numEach:[Int] = [0, 0, 0, 0, 0, 0];
         for i in 0...4 {
             if (dice[i][0] == 1) {
                 numEach[0] += 1;
@@ -122,7 +123,7 @@ class ViewController: UIViewController {
     }
     
     // roll all dice
-    @IBAction func rollDice(_ sender: Any) {
+    @IBAction func rollDice(_ sender: UIButton) {
         if (turnCount > 13){
             return;
         }
@@ -130,92 +131,120 @@ class ViewController: UIViewController {
             return;
         }
         if (dice[0][1] == 0){
-            Die1.setTitle(rollDie(), for: .normal)
+            dice[0][0] = Int(rollDie());
+            Die1.setTitle(String(dice[0][0]), for: .normal);
         }
-        dice[0][1] = 0;
         if (dice[1][1] == 0){
-            Die2.setTitle(rollDie(), for: .normal)
+            dice[1][0] = Int(rollDie());
+            Die2.setTitle(String(dice[1][0]), for: .normal);
         }
-        dice[1][1] = 0;
         if (dice[2][1] == 0){
-            Die3.setTitle(rollDie(), for: .normal)
+            dice[2][0] = Int(rollDie());
+            Die3.setTitle(String(dice[2][0]), for: .normal);
         }
-        dice[2][1] = 0;
         if (dice[3][1] == 0){
-            Die4.setTitle(rollDie(), for: .normal)
+            dice[3][0] = Int(rollDie());
+            Die4.setTitle(String(dice[3][0]), for: .normal);
         }
-        dice[3][1] = 0;
         if (dice[4][1] == 0){
-            Die5.setTitle(rollDie(), for: .normal)
+            dice[4][0] = Int(rollDie());
+            Die5.setTitle(String(dice[4][0]), for: .normal)
         }
-        dice[4][1] = 0;
+        rollCount += 1;
+        return;
     }
     
     // select dice
-    @IBAction func selectDie1(_ sender: Any) {
+    @IBAction func selectDie1(_ sender: UIButton) {
         if (dice[0][1] == 0) {
-            Die1.backgroundColor = UIColor.yellow;
-            dice[0][1] = 1
+            dice[0][1] = 1;
+            Die1.setTitleColor(UIColor.red, for: .normal);
+            return;
         }
         if (dice[0][1] == 1) {
-            Die1.backgroundColor = UIColor.white;
             dice[0][1] = 0;
+            Die1.setTitleColor(UIColor.black, for: .normal);
+            return;
         }
     }
-    @IBAction func selectDie2(_ sender: Any) {
+    @IBAction func selectDie2(_ sender: UIButton) {
         if (dice[1][1] == 0) {
-            Die2.backgroundColor = UIColor.yellow;
-            dice[1][1] = 1
+            Die2.setTitleColor(UIColor.red, for: .normal);
+            dice[1][1] = 1;
+            return;
         }
         if (dice[1][1] == 1) {
-            Die2.backgroundColor = UIColor.white;
+            Die2.setTitleColor(UIColor.black, for: .normal);
             dice[1][1] = 0;
+            return;
         }
     }
-    @IBAction func selectDie3(_ sender: Any) {
+    @IBAction func selectDie3(_ sender: UIButton) {
         if (dice[2][1] == 0) {
-            Die3.backgroundColor = UIColor.yellow;
-            dice[2][1] = 1
+            Die3.setTitleColor(UIColor.red, for: .normal);
+            dice[2][1] = 1;
+            return;
         }
         if (dice[2][1] == 1) {
-            Die3.backgroundColor = UIColor.white;
+            Die3.setTitleColor(UIColor.black, for: .normal);
             dice[2][1] = 0;
+            return;
         }
     }
-    @IBAction func selectDie4(_ sender: Any) {
+    @IBAction func selectDie4(_ sender: UIButton) {
         if (dice[3][1] == 0) {
-            Die4.backgroundColor = UIColor.yellow;
-            dice[3][1] = 1
+            Die4.setTitleColor(UIColor.red, for: .normal);
+            dice[3][1] = 1;
+            return;
         }
         if (dice[3][1] == 1) {
-            Die4.backgroundColor = UIColor.white;
+            Die4.setTitleColor(UIColor.black, for: .normal);
             dice[3][1] = 0;
+            return;
         }
     }
-    @IBAction func selectDie5(_ sender: Any) {
+    @IBAction func selectDie5(_ sender: UIButton) {
         if (dice[4][1] == 0) {
-            Die5.backgroundColor = UIColor.yellow;
-            dice[4][1] = 1
+            Die5.setTitleColor(UIColor.red, for: .normal);
+            dice[4][1] = 1;
+            return;
         }
         if (dice[4][1] == 1) {
-            Die5.backgroundColor = UIColor.white;
+            Die5.setTitleColor(UIColor.black, for: .normal);
             dice[4][1] = 0;
+            return;
         }
     }
     
     // go to next turn
-    @IBAction func goToNextTurn(_ sender: Any) {
-        if (turnCount > 13){
+    @IBAction func goToNextTurn(_ sender: UIButton) {
+        dice[0][1] = 0;
+        dice[1][1] = 0;
+        dice[2][1] = 0;
+        dice[3][1] = 0;
+        dice[4][1] = 0;
+        Die1.setTitleColor(UIColor.black, for: .normal);
+        Die2.setTitleColor(UIColor.black, for: .normal);
+        Die3.setTitleColor(UIColor.black, for: .normal);
+        Die4.setTitleColor(UIColor.black, for: .normal);
+        Die5.setTitleColor(UIColor.black, for: .normal);
+        if (turnCount == 13){
+            finalScore = totalScore();
+            let endGameVC = self.storyboard?.instantiateViewController(withIdentifier: "EndGameViewController") as! EndGameViewController;
+            self.navigationController?.pushViewController(endGameVC, animated: true);
+            self.present(endGameVC, animated: true, completion: nil);
             return;
         } else {
             turnCount += 1;
+            rollCount = 1;
             self.rollDice(UIButton());
         }
         TurnCounter.text = String(turnCount);
+        return;
     }
     
     // Upper Section Scoring Options
-    @IBAction func ScoreOnes(_ sender: Any) {
+    @IBAction func ScoreOnes(_ sender: UIButton) {
         if (upperScores[0] != 0){
             return;
         }
@@ -231,9 +260,10 @@ class ViewController: UIViewController {
             upperScores[6] = 35
         }
         TotalScoreLabel.text = String(totalScore());
+        Score1sBtn.backgroundColor = UIColor.gray;
         goToNextTurn(UIButton());
     }
-    @IBAction func ScoreTwos(_ sender: Any) {
+    @IBAction func ScoreTwos(_ sender: UIButton) {
         if (upperScores[1] != 0){
             return;
         }
@@ -249,9 +279,10 @@ class ViewController: UIViewController {
             upperScores[6] = 35
         }
         TotalScoreLabel.text = String(totalScore());
+        Score2sBtn.backgroundColor = UIColor.gray;
         goToNextTurn(UIButton());
     }
-    @IBAction func ScoreThrees(_ sender: Any) {
+    @IBAction func ScoreThrees(_ sender: UIButton) {
         if (upperScores[2] != 0){
             return;
         }
@@ -267,9 +298,10 @@ class ViewController: UIViewController {
             upperScores[6] = 35
         }
         TotalScoreLabel.text = String(totalScore());
+        Score3sBtn.backgroundColor = UIColor.gray;
         goToNextTurn(UIButton());
     }
-    @IBAction func ScoreFours(_ sender: Any) {
+    @IBAction func ScoreFours(_ sender: UIButton) {
         if (upperScores[3] != 0){
             return;
         }
@@ -285,9 +317,10 @@ class ViewController: UIViewController {
             upperScores[6] = 35
         }
         TotalScoreLabel.text = String(totalScore());
+        Score4sBtn.backgroundColor = UIColor.gray;
         goToNextTurn(UIButton());
     }
-    @IBAction func ScoreFives(_ sender: Any) {
+    @IBAction func ScoreFives(_ sender: UIButton) {
         if (upperScores[4] != 0){
             return;
         }
@@ -303,9 +336,10 @@ class ViewController: UIViewController {
             upperScores[6] = 35
         }
         TotalScoreLabel.text = String(totalScore());
+        Score5sBtn.backgroundColor = UIColor.gray;
         goToNextTurn(UIButton());
     }
-    @IBAction func ScoreSixes(_ sender: Any) {
+    @IBAction func ScoreSixes(_ sender: UIButton) {
         if (upperScores[5] != 0){
             return;
         }
@@ -321,11 +355,12 @@ class ViewController: UIViewController {
             upperScores[6] = 35
         }
         TotalScoreLabel.text = String(totalScore());
+        Score6sBtn.backgroundColor = UIColor.gray;
         goToNextTurn(UIButton());
     }
     
     // Lower Section Scoring Options
-    @IBAction func ScoreThreeOfAKind(_ sender: Any) {
+    @IBAction func ScoreThreeOfAKind(_ sender: UIButton) {
         if (lowerScores[0] != 0) {
             return;
         }
@@ -337,9 +372,10 @@ class ViewController: UIViewController {
         lowerScores[0] = score;
         LowerSectionScoreLabel.text = String(totalLower());
         TotalScoreLabel.text = String(totalScore());
+        threeOfAKindBtn.backgroundColor = UIColor.gray;
         goToNextTurn(UIButton());
     }
-    @IBAction func ScoreFourOfAKind(_ sender: Any) {
+    @IBAction func ScoreFourOfAKind(_ sender: UIButton) {
         if (lowerScores[1] != 0) {
             return;
         }
@@ -351,9 +387,10 @@ class ViewController: UIViewController {
         lowerScores[1] = score;
         LowerSectionScoreLabel.text = String(totalLower());
         TotalScoreLabel.text = String(totalScore());
+        FourOfAKindBtn.backgroundColor = UIColor.gray;
         goToNextTurn(UIButton());
     }
-    @IBAction func ScoreFullHouse(_ sender: Any) {
+    @IBAction func ScoreFullHouse(_ sender: UIButton) {
         if (lowerScores[2] != 0) {
             return;
         }
@@ -363,8 +400,10 @@ class ViewController: UIViewController {
             LowerSectionScoreLabel.text = String(totalLower());
             TotalScoreLabel.text = String(totalScore());
         }
+        FullHouseBtn.backgroundColor = UIColor.gray;
+        goToNextTurn(UIButton());
     }
-    @IBAction func ScoreSmallStraight(_ sender: Any) {
+    @IBAction func ScoreSmallStraight(_ sender: UIButton) {
         if (lowerScores[3] != 0) {
             return;
         }
@@ -375,8 +414,10 @@ class ViewController: UIViewController {
         lowerScores[3] = score;
         LowerSectionScoreLabel.text = String(totalLower());
         TotalScoreLabel.text = String(totalScore());
+        SmallStraightBtn.backgroundColor = UIColor.gray;
+        goToNextTurn(UIButton());
     }
-    @IBAction func ScoreLargeStraight(_ sender: Any) {
+    @IBAction func ScoreLargeStraight(_ sender: UIButton) {
         if (lowerScores[4] != 0) {
             return;
         }
@@ -387,8 +428,10 @@ class ViewController: UIViewController {
         lowerScores[4] = score;
         LowerSectionScoreLabel.text = String(totalLower());
         TotalScoreLabel.text = String(totalScore());
+        LargeStraightBtn.backgroundColor = UIColor.gray;
+        goToNextTurn(UIButton());
     }
-    @IBAction func ScoreYahtzee(_ sender: Any) {
+    @IBAction func ScoreYahtzee(_ sender: UIButton) {
         if (lowerScores[5] != 0) {
             return;
         }
@@ -400,8 +443,10 @@ class ViewController: UIViewController {
         lowerScores[5] = score;
         LowerSectionScoreLabel.text = String(totalLower());
         TotalScoreLabel.text = String(totalScore());
+        YahtzeeBtn.backgroundColor = UIColor.gray;
+        goToNextTurn(UIButton());
     }
-    @IBAction func ScoreChance(_ sender: Any) {
+    @IBAction func ScoreChance(_ sender: UIButton) {
         if (lowerScores[6] != 0) {
             return;
         }
@@ -409,8 +454,10 @@ class ViewController: UIViewController {
         lowerScores[6] = score;
         LowerSectionScoreLabel.text = String(totalLower());
         TotalScoreLabel.text = String(totalScore());
+        ChanceBtn.backgroundColor = UIColor.gray;
+        goToNextTurn(UIButton());
     }
-    @IBAction func ScoreBonusYahtzee(_ sender: Any) {
+    @IBAction func ScoreBonusYahtzee(_ sender: UIButton) {
         if (lowerScores[5] == 0) {
             return;
         }
@@ -422,6 +469,8 @@ class ViewController: UIViewController {
         lowerScores[7] = score;
         LowerSectionScoreLabel.text = String(totalLower());
         TotalScoreLabel.text = String(totalScore());
+        BonusYahtzeeBtn.backgroundColor = UIColor.gray;
+        goToNextTurn(UIButton());
     }
     
     
